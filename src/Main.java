@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,13 +19,18 @@ public class Main {
 
         // Этап 3
         // Поиск города с наибольшим количеством жителей
-        List<City> directoryOfCities = UtilsForDirectory.createAListOfCities();
+//        List<City> directoryOfCities = UtilsForDirectory.createAListOfCities();
         // Вариант 1
 //        System.out.println(directoryOfCities.stream().max(Comparator.comparing(City::getPopulation)));
+
         // Вариант 2
-        City maxPopulation = maxPopulation(directoryOfCities.toArray(new City[directoryOfCities.size()]));
-        System.out.println("Наибольшее количество жителей в городе " + maxPopulation.getNameOfCity()
-                    + " составляет - " + maxPopulation.getPopulation() + " человек.");
+//        City maxPopulation = maxPopulation(directoryOfCities.toArray(new City[directoryOfCities.size()]));
+//        System.out.println("Наибольшее количество жителей в городе " + maxPopulation.getNameOfCity()
+//                    + " составляет - " + maxPopulation.getPopulation() + " человек.");
+
+        // Этап 4
+        // Поиск количества городов в разрезе регионов
+        countCitiesIntoDistrict(UtilsForDirectory.createAListOfCities());
 
     }
 
@@ -56,5 +59,12 @@ public class Main {
         }
         City subMax = maxPopulation(Arrays.copyOfRange(array, 1, array.length));
             return array[0].getPopulation() > subMax.getPopulation() ? array[0] : subMax;
+    }
+
+    // Поиск количества городов в разрезе регионов
+    public static void countCitiesIntoDistrict(List<City> cities) {
+        Map<String, Integer> map = new HashMap<>();
+        cities.forEach(c -> map.merge(c.getDistrict(), 1, Integer::sum));
+        map.forEach((k,v) -> System.out.println(k + " = " + v));
     }
 }
